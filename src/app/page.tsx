@@ -16,7 +16,7 @@ export default function Home() {
     useEffect(() => {
         const interval = setInterval(() => {
             setWordIndex((prev) => (prev + 1) % words.length);
-        }, 3000);
+        }, 4000);
         return () => clearInterval(interval);
     }, [words]);
 
@@ -63,7 +63,7 @@ export default function Home() {
                             <span className="block mb-2">ITM MBA iConnect's</span>
                             <span
                                 key={wordIndex}
-                                className="gradient-text word-animate-in inline-block py-1"
+                                className="gradient-text word-animate-in inline-block py-1 text-5xl md:text-7xl lg:text-9xl"
                             >
                                 {words[wordIndex]}
                             </span>
