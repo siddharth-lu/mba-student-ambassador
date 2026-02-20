@@ -73,27 +73,11 @@ export default function Home() {
                             Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <div className="flex justify-center">
                             <a href="#ambassadors" className="group relative bg-itm-red text-white px-12 py-5 rounded-3xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/30 overflow-hidden">
                                 <span className="relative z-10 tracking-widest">START CONNECTING</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-itm-red via-red-500 to-itm-red translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out opacity-20" />
                             </a>
-
-                            {!loading && ambassadors.length > 0 && (
-                                <div className="flex items-center gap-4 bg-gray-50 px-6 py-4 rounded-3xl border border-gray-100 shadow-sm">
-                                    <div className="flex -space-x-4">
-                                        {ambassadors.slice(0, 3).map((a) => (
-                                            <div key={a.id} className="w-12 h-12 rounded-full border-2 border-white shadow-sm overflow-hidden relative group">
-                                                <img src={a.photo_url} alt="" className="w-full h-full object-cover transition-all duration-500" />
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="text-left">
-                                        <div className="text-gray-900 font-black text-lg">+{ambassadors.length} Students</div>
-                                        <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest leading-none">Awaiting Chat</div>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </div>
