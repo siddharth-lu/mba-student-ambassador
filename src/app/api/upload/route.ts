@@ -37,11 +37,8 @@ export async function POST(request: Request) {
             }
         });
 
-        // Make the file public (optional, or use getDownloadURL equivalent)
-        // For Admin SDK, we usually generate a signed URL or use the standard public URL format
-        await blob.makePublic();
-
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+        // Use standard GCS public URL format (assuming public-read permissions in Storage Rules)
+        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileName)}?alt=media`;
 
         console.log('Upload successful via Admin SDK:', publicUrl);
 
