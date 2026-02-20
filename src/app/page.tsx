@@ -54,8 +54,17 @@ export default function Home() {
 
     return (
         <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
+            {/* Mobile Sticky Navbar */}
+            <nav className="md:hidden sticky top-0 z-[60] bg-itm-red px-6 py-4 flex items-center justify-between shadow-lg">
+                <div className="flex items-center gap-3">
+                    <img src="/logo.png" alt="ITM" className="h-8 w-auto brightness-0 invert" />
+                    <div className="h-6 w-[1px] bg-white/20" />
+                    <div className="font-black tracking-[0.1em] text-sm text-white">STUDENT CONNECT</div>
+                </div>
+            </nav>
+
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-28 pb-32">
+            <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-8 md:pt-28 pb-12 md:pb-24">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
@@ -73,13 +82,13 @@ export default function Home() {
                             <span className="block mb-2 uppercase">ITM MBA <span className="lowercase">i</span>CONNECT'S</span>
                             <span
                                 key={wordIndex}
-                                className="gradient-text word-animate-in inline-block py-1 text-5xl md:text-7xl lg:text-9xl uppercase"
+                                className="gradient-text word-animate-in inline-block py-1 text-4xl md:text-7xl lg:text-9xl uppercase"
                             >
                                 {words[wordIndex]}
                             </span>
                         </h1>
 
-                        <p className="text-lg md:text-xl text-gray-500 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-base md:text-xl text-gray-500 mb-6 md:mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
                             Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
 
