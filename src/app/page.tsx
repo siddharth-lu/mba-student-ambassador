@@ -63,7 +63,7 @@ export default function Home() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-[480px] md:min-h-[85vh] flex items-start md:items-center justify-center overflow-hidden bg-white pt-8 md:pt-12 pb-2 md:pb-24">
+            <section className="relative min-h-0 md:min-h-[85vh] flex flex-col md:flex-row items-center justify-center overflow-hidden bg-white pt-12 md:pt-12 pb-8 md:pb-24">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
@@ -97,7 +97,7 @@ export default function Home() {
                 </div>
 
                 {/* Scrolling Bar (Marquee) */}
-                <div className="absolute bottom-0 left-0 w-full">
+                <div className="relative md:absolute md:bottom-0 left-0 w-full mt-8 md:mt-0">
                     <Marquee text="REAL INSIGHTS • NO BOTS • CAMPUS LIFE • PLACEMENT TRUTH • ACADEMIC REALITY" />
                 </div>
             </section>
