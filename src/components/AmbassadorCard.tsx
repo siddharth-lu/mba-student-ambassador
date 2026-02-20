@@ -61,28 +61,43 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         <h3 className={`${isCompact ? 'text-lg md:text-3xl' : 'text-3xl'} font-black text-gray-900 tracking-tighter leading-tight md:leading-none`}>{ambassador.name}</h3>
                     </div>
 
+                    {isCompact && (
+                        <div className="flex items-center justify-center md:justify-start gap-3 mt-auto pt-4 border-t border-gray-50">
+                            {ambassador.instagram_url && (
+                                <Instagram size={14} className="text-gray-400" />
+                            )}
+                            {ambassador.linkedin_url && (
+                                <Linkedin size={14} className="text-gray-400" />
+                            )}
+                        </div>
+                    )}
+
                     {!isCompact && (
                         <>
                             <p className="text-gray-500 font-medium text-sm mb-8 flex-grow leading-relaxed italic">
                                 "{ambassador.tagline}"
                             </p>
 
-                            <div className="grid grid-cols-2 gap-4 mt-auto">
-                                <button
-                                    onClick={() => handleConnect('instagram')}
-                                    className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-red transition-all duration-300 shadow-lg active:scale-95"
-                                >
-                                    <Instagram size={16} />
-                                    <span>Instagram</span>
-                                </button>
+                            <div className={`grid ${ambassador.instagram_url && ambassador.linkedin_url ? 'grid-cols-2' : 'grid-cols-1'} gap-4 mt-auto`}>
+                                {ambassador.instagram_url && (
+                                    <button
+                                        onClick={() => handleConnect('instagram')}
+                                        className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-red transition-all duration-300 shadow-lg active:scale-95"
+                                    >
+                                        <Instagram size={16} />
+                                        <span>Instagram</span>
+                                    </button>
+                                )}
 
-                                <button
-                                    onClick={() => handleConnect('linkedin')}
-                                    className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-[#0077b5] transition-all duration-300 shadow-lg active:scale-95"
-                                >
-                                    <Linkedin size={16} />
-                                    <span>LinkedIn</span>
-                                </button>
+                                {ambassador.linkedin_url && (
+                                    <button
+                                        onClick={() => handleConnect('linkedin')}
+                                        className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-[#0077b5] transition-all duration-300 shadow-lg active:scale-95"
+                                    >
+                                        <Linkedin size={16} />
+                                        <span>LinkedIn</span>
+                                    </button>
+                                )}
                             </div>
                         </>
                     )}
