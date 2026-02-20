@@ -102,6 +102,42 @@
   animation: gradient-x 5s ease infinite;
 }
 
+@keyframes word-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) skewY(2deg);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes word-slide-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) skewY(-2deg);
+    filter: blur(10px);
+  }
+}
+
+.word-animate-in {
+  animation: word-slide-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.word-animate-out {
+  animation: word-slide-out 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
