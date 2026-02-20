@@ -32,6 +32,11 @@ const getPlaceholder = (name?: string) => {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=A31D45&color=fff&size=512`;
 };
 
+const getProxyUrl = (url: string) => {
+    if (!url || url.startsWith('/') || url.includes('ui-avatars.com') || url.includes('firebasestorage')) return url;
+    return `/api/proxy-image?url=${encodeURIComponent(url)}`;
+};
+
 const DEFAULT_PLACEHOLDER = 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
 
 const EMPTY_FORM: Omit<Ambassador, 'id'> = {
@@ -343,7 +348,7 @@ export default function AmbassadorManagement() {
                                     <div className="w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md relative">
                                         <img
                                             key={formData.photo_url}
-                                            src={formData.photo_url || getPlaceholder(formData.name)}
+                                            src={getProxyUrl(formData.photo_url) || getPlaceholder(formData.name)}
                                             alt="Preview"
                                             referrerPolicy="no-referrer"
                                             className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}

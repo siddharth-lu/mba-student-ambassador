@@ -13,7 +13,14 @@ interface AmbassadorCardProps {
 const DEFAULT_PLACEHOLDER = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&h=200&auto=format&fit=crop";
 
 const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact = false }) => {
-    const [imgSrc, setImgSrc] = React.useState(ambassador.photo_url || DEFAULT_PLACEHOLDER);
+    const getImageUrl = (url: string) => {
+        if (!url || url === DEFAULT_PLACEHOLDER) return DEFAULT_PLACEHOLDER;
+        if (url.startsWith('/')) return url; // Local uploads
+        if (url.includes('unsplash.com') || url.includes('firebasestorage')) return url; // Trusted domains
+        return `/api/proxy-image?url=${encodeURIComponent(url)}`;
+    };
+
+    const [imgSrc, setImgSrc] = React.useState(getImageUrl(ambassador.photo_url));
 
     const handleConnect = async (platform: 'instagram' | 'linkedin') => {
         const url = platform === 'instagram' ? ambassador.instagram_url : ambassador.linkedin_url;
