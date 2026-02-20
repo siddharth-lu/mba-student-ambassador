@@ -45,7 +45,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
             <div className={`absolute -inset-0.5 bg-gradient-to-r from-itm-red to-itm-gold rounded-[1.5rem] md:rounded-[2.5rem] blur opacity-0 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 ${isCompact ? 'block md:hidden' : 'block'}`} />
 
             <div className={`relative bg-itm-red rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-white/10 flex flex-col h-full ${!isCompact ? 'group-hover:-translate-y-2' : ''}`}>
-                <div className={`relative w-full overflow-hidden ${isCompact ? 'h-48 sm:h-60 md:h-72' : 'h-72 md:h-80'}`}>
+                <div className={`relative w-full bg-white overflow-hidden ${isCompact ? 'h-48 sm:h-60 md:h-72' : 'h-72 md:h-80'}`}>
                     <Image
                         src={imgSrc}
                         alt={ambassador.name}
@@ -55,7 +55,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         onError={() => setImgSrc(getPlaceholderUrl(ambassador.name))}
                         unoptimized={true}
                     />
-                    <div className={`absolute top-3 sm:top-4 md:top-5 right-3 sm:right-4 md:right-5 bg-white/20 backdrop-blur-md px-3 sm:px-3 md:px-4 py-1.5 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white transition-all`}>
+                    <div className={`absolute top-3 sm:top-4 md:top-5 right-3 sm:right-4 md:right-5 bg-itm-red text-white/90 px-3 sm:px-3 md:px-4 py-1.5 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] shadow-lg transition-all`}>
                         {ambassador.year}
                     </div>
                 </div>
