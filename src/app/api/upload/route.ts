@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         // Use Firebase Admin SDK to upload
         // Admin SDK bypasses storage security rules
         const bucket = adminStorage.bucket();
+        console.log(`Using bucket for upload: ${bucket.name}`);
         const blob = bucket.file(fileName);
 
         await blob.save(buffer, {
