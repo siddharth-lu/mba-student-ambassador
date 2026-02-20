@@ -13,6 +13,7 @@ export default function Home() {
     const [words] = useState(['STUDENT', 'AMBASSADOR', 'ROCKETS']);
     const [wordIndex, setWordIndex] = useState(0);
     const [selectedTag, setSelectedTag] = useState('All');
+    const [selectedAmbassador, setSelectedAmbassador] = useState<Ambassador | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -156,16 +157,43 @@ export default function Home() {
                             <span className="font-black tracking-widest uppercase">Fetching Network...</span>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                             {filteredAmbassadors.map((ambassador) => (
-                                <div key={ambassador.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both">
-                                    <AmbassadorCard ambassador={ambassador} />
+                                <div
+                                    key={ambassador.id}
+                                    className="animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both cursor-pointer"
+                                    onClick={() => setSelectedAmbassador(ambassador)}
+                                >
+                                    <AmbassadorCard ambassador={ambassador} isCompact={true} />
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
             </section>
+
+            {/* Ambassador Detail Modal */}
+            {selectedAmbassador && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 animate-in fade-in duration-300"
+                    onClick={() => setSelectedAmbassador(null)}
+                >
+                    <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-xl" />
+                    <div
+                        className="relative w-full max-w-lg animate-in zoom-in-95 slide-in-from-bottom-10 duration-500"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            className="absolute -top-12 right-0 text-white hover:text-itm-red transition-colors font-black text-sm tracking-widest uppercase flex items-center gap-2"
+                            onClick={() => setSelectedAmbassador(null)}
+                        >
+                            <span>Close</span>
+                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">✕</div>
+                        </button>
+                        <AmbassadorCard ambassador={selectedAmbassador} />
+                    </div>
+                </div>
+            )}
 
             {/* Why Experience ITM? */}
             <section className="py-32 bg-white overflow-hidden relative">

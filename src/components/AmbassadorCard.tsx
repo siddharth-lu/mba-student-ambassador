@@ -7,11 +7,12 @@ import { Ambassador } from '@/data/mockAmbassadors';
 
 interface AmbassadorCardProps {
     ambassador: Ambassador;
+    isCompact?: boolean;
 }
 
 const DEFAULT_PLACEHOLDER = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&h=200&auto=format&fit=crop";
 
-const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador }) => {
+const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact = false }) => {
     const [imgSrc, setImgSrc] = React.useState(
         ambassador.photo_url?.startsWith('/uploads/') ? DEFAULT_PLACEHOLDER : (ambassador.photo_url || DEFAULT_PLACEHOLDER)
     );
@@ -37,12 +38,12 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador }) => {
     };
 
     return (
-        <div className="group relative">
+        <div className="group relative h-full">
             {/* Animated Border Glow on Hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-itm-red to-itm-gold rounded-[2.5rem] blur opacity-0 group-hover:opacity-30 transition duration-1000 group-hover:duration-200" />
+            <div className={`absolute -inset-0.5 bg-gradient-to-r from-itm-red to-itm-gold rounded-[1.5rem] md:rounded-[2.5rem] blur opacity-0 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 ${isCompact ? 'block md:hidden' : 'block'}`} />
 
-            <div className="relative bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-white/20 flex flex-col h-full group-hover:-translate-y-2">
-                <div className="relative h-72 w-full overflow-hidden">
+            <div className={`relative bg-white/80 backdrop-blur-xl rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-white/20 flex flex-col h-full ${!isCompact ? 'group-hover:-translate-y-2' : ''}`}>
+                <div className={`relative w-full overflow-hidden ${isCompact ? 'h-48 md:h-72' : 'h-72'}`}>
                     <Image
                         src={imgSrc}
                         alt={ambassador.name}
@@ -51,40 +52,42 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador }) => {
                         onError={() => setImgSrc(DEFAULT_PLACEHOLDER)}
                         unoptimized={imgSrc.startsWith('http') && !imgSrc.includes('unsplash.com') && !imgSrc.includes('firebasestorage')}
                     />
-                    <div className="absolute top-5 right-5 glass px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-itm-red">
+                    <div className={`absolute top-3 md:top-5 right-3 md:right-5 glass px-3 md:px-4 py-1.5 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-itm-red`}>
                         {ambassador.year}
                     </div>
-                    {/* Shadow Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-60" />
                 </div>
 
-                <div className="p-8 flex flex-col flex-grow relative">
-                    <div className="mb-6">
-                        <div className="text-itm-red font-black text-xs uppercase tracking-[0.3em] mb-2">{ambassador.specialization}</div>
-                        <h3 className="text-3xl font-black text-gray-900 tracking-tighter leading-none">{ambassador.name}</h3>
+                <div className={`${isCompact ? 'p-4 md:p-8' : 'p-8'} flex flex-col flex-grow relative text-center md:text-left`}>
+                    <div className={`${isCompact ? 'mb-2 md:mb-6' : 'mb-6'}`}>
+                        <div className="text-itm-red font-black text-[8px] md:text-xs uppercase tracking-[0.3em] mb-1 md:mb-2">{ambassador.specialization}</div>
+                        <h3 className={`${isCompact ? 'text-lg md:text-3xl' : 'text-3xl'} font-black text-gray-900 tracking-tighter leading-tight md:leading-none`}>{ambassador.name}</h3>
                     </div>
 
-                    <p className="text-gray-500 font-medium text-sm mb-8 flex-grow leading-relaxed italic">
-                        "{ambassador.tagline}"
-                    </p>
+                    {!isCompact && (
+                        <>
+                            <p className="text-gray-500 font-medium text-sm mb-8 flex-grow leading-relaxed italic">
+                                "{ambassador.tagline}"
+                            </p>
 
-                    <div className="grid grid-cols-2 gap-4 mt-auto">
-                        <button
-                            onClick={() => handleConnect('instagram')}
-                            className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-red transition-all duration-300 shadow-lg active:scale-95"
-                        >
-                            <Instagram size={16} />
-                            <span>Instagram</span>
-                        </button>
+                            <div className="grid grid-cols-2 gap-4 mt-auto">
+                                <button
+                                    onClick={() => handleConnect('instagram')}
+                                    className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-red transition-all duration-300 shadow-lg active:scale-95"
+                                >
+                                    <Instagram size={16} />
+                                    <span>Instagram</span>
+                                </button>
 
-                        <button
-                            onClick={() => handleConnect('linkedin')}
-                            className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-[#0077b5] transition-all duration-300 shadow-lg active:scale-95"
-                        >
-                            <Linkedin size={16} />
-                            <span>LinkedIn</span>
-                        </button>
-                    </div>
+                                <button
+                                    onClick={() => handleConnect('linkedin')}
+                                    className="flex items-center justify-center gap-2 bg-gray-900 text-white py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-[#0077b5] transition-all duration-300 shadow-lg active:scale-95"
+                                >
+                                    <Linkedin size={16} />
+                                    <span>LinkedIn</span>
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
