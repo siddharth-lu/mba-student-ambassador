@@ -45,7 +45,7 @@ export default function Home() {
     return (
         <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-20">
+            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-28 pb-32">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
@@ -54,27 +54,27 @@ export default function Home() {
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-2 rounded-full mb-10 animate-float shadow-sm">
+                        <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-2 rounded-full mb-8 animate-float shadow-sm">
                             <span className="w-2 h-2 bg-itm-red rounded-full animate-ping" />
-                            <span className="text-itm-red text-xs font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
+                            <span className="text-itm-red text-[10px] font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-gray-900 mb-8 tracking-tighter leading-none uppercase">
-                            <span className="block mb-2 whitespace-nowrap">ITM MBA iConnect's</span>
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tighter leading-[1.1] uppercase">
+                            <span className="block mb-2">ITM MBA iConnect's</span>
                             <span
                                 key={wordIndex}
-                                className="gradient-text word-animate-in inline-block py-2"
+                                className="gradient-text word-animate-in inline-block py-1"
                             >
                                 {words[wordIndex]}
                             </span>
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-gray-500 mb-14 max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-lg md:text-xl text-gray-500 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
                             Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
 
                         <div className="flex justify-center">
-                            <a href="#ambassadors" className="group relative bg-itm-red text-white px-12 py-5 rounded-3xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/30 overflow-hidden">
+                            <a href="#ambassadors" className="group relative bg-itm-red text-white px-10 py-4 rounded-2xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/30 overflow-hidden">
                                 <span className="relative z-10 tracking-widest">START CONNECTING</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-itm-red via-red-500 to-itm-red translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out opacity-20" />
                             </a>
