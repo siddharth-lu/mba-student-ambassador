@@ -13,7 +13,7 @@ import {
     X,
     Camera
 } from 'lucide-react';
-import { db } from '@/lib/firebase';
+import { db, storage } from '@/lib/firebase';
 import {
     collection,
     onSnapshot,
@@ -24,6 +24,7 @@ import {
     query,
     orderBy
 } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
 const DEFAULT_PLACEHOLDER = 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
@@ -115,21 +116,16 @@ export default function AmbassadorManagement() {
         try {
             setIsUploading(true);
 
-            const formData = new FormData();
-            formData.append('file', file);
+            // Create a unique file name/path in Firebase Storage
+            const storageRef = ref(storage, `ambassadors/${Date.now()}_${file.name}`);
 
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
+            // Upload the file
+            const snapshot = await uploadBytes(storageRef, file);
 
-            const data = await response.json();
+            // Get the public download URL
+            const downloadURL = await getDownloadURL(snapshot.ref);
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Upload failed');
-            }
-
-            setFormData(prev => ({ ...prev, photo_url: data.url }));
+            setFormData(prev => ({ ...prev, photo_url: downloadURL }));
         } catch (err: any) {
             console.error('Photo upload error:', err);
             alert('Failed to upload photo: ' + (err.message || 'Unknown error'));
