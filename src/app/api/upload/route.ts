@@ -24,6 +24,8 @@ export async function POST(request: Request) {
         const sanitizedName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
         const uniqueName = `ambassadors/${Date.now()}_${sanitizedName}`;
 
+        console.log(`Attempting upload to Firebase Storage: ${uniqueName} (${file.type}, ${file.size} bytes)`);
+
         // Create storage reference
         const storageRef = ref(storage, uniqueName);
 
@@ -32,14 +34,26 @@ export async function POST(request: Request) {
             contentType: file.type,
         });
 
+        console.log('Upload successful, getting download URL...');
+
         // Get the public download URL
         const downloadUrl = await getDownloadURL(snapshot.ref);
 
         return NextResponse.json({ url: downloadUrl }, { status: 200 });
     } catch (error: any) {
-        console.error('Server-side upload error:', error);
+        console.error('SERVER-SIDE UPLOAD ERROR DETAILS:', {
+            message: error.message,
+            code: error.code,
+            customData: error.customData,
+            stack: error.stack,
+            serverResponse: error.serverResponse
+        });
         return NextResponse.json(
-            { error: error.message || 'Upload failed' },
+            {
+                error: error.message || 'Upload failed',
+                code: error.code,
+                details: error.serverResponse || 'Check server logs'
+            },
             { status: 500 }
         );
     }
