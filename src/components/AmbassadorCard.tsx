@@ -4,23 +4,15 @@ import React from 'react';
 import Image from 'next/image';
 import { Instagram, Linkedin } from 'lucide-react';
 import { Ambassador } from '@/data/mockAmbassadors';
+import { getProxyImageUrl, getPlaceholderUrl } from '@/lib/image-utils';
 
 interface AmbassadorCardProps {
     ambassador: Ambassador;
     isCompact?: boolean;
 }
 
-const DEFAULT_PLACEHOLDER = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&h=200&auto=format&fit=crop";
-
 const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact = false }) => {
-    const getImageUrl = (url: string) => {
-        if (!url || url === DEFAULT_PLACEHOLDER) return DEFAULT_PLACEHOLDER;
-        if (url.startsWith('/')) return url; // Local uploads
-        if (url.includes('unsplash.com') || url.includes('firebasestorage')) return url; // Trusted domains
-        return `/api/proxy-image?url=${encodeURIComponent(url)}`;
-    };
-
-    const [imgSrc, setImgSrc] = React.useState(getImageUrl(ambassador.photo_url));
+    const [imgSrc, setImgSrc] = React.useState(getProxyImageUrl(ambassador.photo_url) || getPlaceholderUrl(ambassador.name));
 
     const handleConnect = async (platform: 'instagram' | 'linkedin') => {
         const url = platform === 'instagram' ? ambassador.instagram_url : ambassador.linkedin_url;
@@ -55,7 +47,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         fill
                         referrerPolicy="no-referrer"
                         className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        onError={() => setImgSrc(DEFAULT_PLACEHOLDER)}
+                        onError={() => setImgSrc(getPlaceholderUrl(ambassador.name))}
                         unoptimized={imgSrc.startsWith('http') && !imgSrc.includes('unsplash.com') && !imgSrc.includes('firebasestorage')}
                     />
                     <div className={`absolute top-3 md:top-5 right-3 md:right-5 glass px-3 md:px-4 py-1.5 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-itm-red`}>

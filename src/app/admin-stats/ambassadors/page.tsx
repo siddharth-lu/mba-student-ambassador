@@ -14,6 +14,7 @@ import {
     Camera
 } from 'lucide-react';
 import { db, storage } from '@/lib/firebase';
+import { getProxyImageUrl, getPlaceholderUrl } from '@/lib/image-utils';
 import {
     collection,
     onSnapshot,
@@ -27,17 +28,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
-const getPlaceholder = (name?: string) => {
-    if (!name) return 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=A31D45&color=fff&size=512`;
-};
-
-const getProxyUrl = (url: string) => {
-    if (!url || url.startsWith('/') || url.includes('ui-avatars.com') || url.includes('firebasestorage')) return url;
-    return `/api/proxy-image?url=${encodeURIComponent(url)}`;
-};
-
-const DEFAULT_PLACEHOLDER = 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
+const DEFAULT_PLACEHOLDER = getPlaceholderUrl();
 
 const EMPTY_FORM: Omit<Ambassador, 'id'> = {
     name: '',
@@ -263,11 +254,11 @@ export default function AmbassadorManagement() {
                             <div className="p-6 flex items-start gap-4">
                                 <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-gray-50 shadow-sm shrink-0 bg-gray-50">
                                     <img
-                                        src={amb.photo_url || DEFAULT_PLACEHOLDER}
+                                        src={getProxyImageUrl(amb.photo_url) || getPlaceholderUrl(amb.name)}
                                         alt={amb.name}
                                         className="w-full h-full object-cover"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = DEFAULT_PLACEHOLDER;
+                                            (e.target as HTMLImageElement).src = getPlaceholderUrl(amb.name);
                                         }}
                                     />
                                 </div>
@@ -348,13 +339,13 @@ export default function AmbassadorManagement() {
                                     <div className="w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md relative">
                                         <img
                                             key={formData.photo_url}
-                                            src={getProxyUrl(formData.photo_url) || getPlaceholder(formData.name)}
+                                            src={getProxyImageUrl(formData.photo_url) || getPlaceholderUrl(formData.name)}
                                             alt="Preview"
                                             referrerPolicy="no-referrer"
                                             className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}
                                             onError={(e) => {
                                                 const target = e.target as HTMLImageElement;
-                                                const fallback = getPlaceholder(formData.name);
+                                                const fallback = getPlaceholderUrl(formData.name);
                                                 if (target.src !== fallback) {
                                                     target.src = fallback;
                                                 }
