@@ -56,9 +56,9 @@ export default function Home() {
     return (
         <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
             {/* Sticky Navbar */}
-            <nav className="sticky top-0 z-[60] bg-itm-red px-6 py-4 flex items-center justify-between shadow-lg">
+            <nav className="sticky top-0 z-[60] bg-white px-6 py-4 flex items-center justify-between shadow-sm border-b-[3px] border-itm-red">
                 <div className="flex items-center gap-3">
-                    <img src="/logo.png" alt="ITM" className="h-8 w-auto" />
+                    <img src="https://cdn.itm.edu/assets/mba_logo_c3ee45295c.webp" alt="ITM MBA" className="h-10 w-auto" />
                 </div>
             </nav>
 
