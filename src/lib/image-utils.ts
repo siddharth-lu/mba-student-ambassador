@@ -1,6 +1,6 @@
 export const getPlaceholderUrl = (name?: string) => {
-    if (!name) return 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=A31D45&color=fff&size=512`;
+    if (!name) return 'https://ui-avatars.com/api/?name=User&background=ffffff&color=A31D45&size=512';
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=ffffff&color=A31D45&size=512`;
 };
 
 export const getProxyImageUrl = (url: string) => {
