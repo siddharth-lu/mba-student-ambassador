@@ -205,7 +205,7 @@ export default function AmbassadorManagement() {
                             <div className="p-6 flex items-start gap-4">
                                 <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-gray-50 shadow-sm shrink-0 bg-gray-50">
                                     <img
-                                        src={amb.photo_url?.startsWith('/uploads/') ? DEFAULT_PLACEHOLDER : (amb.photo_url || DEFAULT_PLACEHOLDER)}
+                                        src={amb.photo_url || DEFAULT_PLACEHOLDER}
                                         alt={amb.name}
                                         className="w-full h-full object-cover"
                                         onError={(e) => {
@@ -305,6 +305,19 @@ export default function AmbassadorManagement() {
                                     <p className="text-xs font-bold text-itm-gold mt-2 text-center uppercase tracking-wider group-hover:underline">
                                         {formData.photo_url === DEFAULT_PLACEHOLDER ? 'Upload Photo' : 'Change Photo'}
                                     </p>
+                                </div>
+
+                                <div className="flex-grow space-y-4">
+                                    <div className="space-y-1">
+                                        <label className="text-sm font-bold text-gray-700 ml-1">Photo Link</label>
+                                        <input
+                                            type="text"
+                                            value={formData.photo_url}
+                                            onChange={(e) => handleInputChange('photo_url', e.target.value)}
+                                            placeholder="Paste direct image URL or upload..."
+                                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all text-sm font-medium"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

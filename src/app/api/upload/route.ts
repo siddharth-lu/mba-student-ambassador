@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { adminStorage } from '@/lib/firebase-admin';
+import fs from 'fs';
+import path from 'path';
 
 export async function POST(request: Request) {
     try {
@@ -19,43 +20,32 @@ export async function POST(request: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
+        // Ensure upload directory exists
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
         // Generate unique file name
         const sanitizedName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-        const fileName = `ambassadors/${Date.now()}_${sanitizedName}`;
+        const fileName = `${Date.now()}_${sanitizedName}`;
+        const filePath = path.join(uploadDir, fileName);
 
-        console.log(`Uploading via Admin SDK: ${fileName} (${file.type})`);
+        console.log(`Saving file locally: ${filePath}`);
 
-        // Use Firebase Admin SDK to upload
-        // Admin SDK bypasses storage security rules
-        const bucket = adminStorage.bucket();
-        console.log(`Using bucket for upload: ${bucket.name}`);
-        const blob = bucket.file(fileName);
+        // Save to filesystem
+        fs.writeFileSync(filePath, buffer);
 
-        await blob.save(buffer, {
-            contentType: file.type,
-            metadata: {
-                firebaseStorageDownloadTokens: crypto.randomUUID(), // Helps with public URLs
-            }
-        });
+        // Path accessible via public URL
+        const localPath = `/uploads/${fileName}`;
 
-        // Use standard GCS public URL format (assuming public-read permissions in Storage Rules)
-        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileName)}?alt=media`;
+        console.log('Local upload successful:', localPath);
 
-        console.log('Upload successful via Admin SDK:', publicUrl);
-
-        return NextResponse.json({ url: publicUrl }, { status: 200 });
+        return NextResponse.json({ url: localPath }, { status: 200 });
     } catch (error: any) {
-        console.error('SERVER-SIDE ADMIN UPLOAD ERROR:', error);
+        console.error('LOCAL UPLOAD ERROR:', error);
         return NextResponse.json(
-            {
-                error: error.message || 'Upload failed',
-                code: error.code || 500,
-                diagnostic: {
-                    bucket: adminStorage.bucket().name,
-                    projectId: process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-                    message: "If the bucket name above is wrong, please correct NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET in Vercel."
-                }
-            },
+            { error: error.message || 'Local upload failed' },
             { status: 500 }
         );
     }
