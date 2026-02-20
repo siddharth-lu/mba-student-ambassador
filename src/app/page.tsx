@@ -58,9 +58,7 @@ export default function Home() {
             {/* Sticky Navbar */}
             <nav className="sticky top-0 z-[60] bg-itm-red px-6 py-4 flex items-center justify-between shadow-lg">
                 <div className="flex items-center gap-3">
-                    <img src="/logo.png" alt="ITM" className="h-8 w-auto brightness-0 invert" />
-                    <div className="h-6 w-[1px] bg-white/20" />
-                    <div className="font-black tracking-[0.1em] text-sm text-white">STUDENT CONNECT</div>
+                    <img src="/logo.png" alt="ITM" className="h-8 w-auto" />
                 </div>
             </nav>
 
