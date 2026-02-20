@@ -22,11 +22,11 @@ export default function Home() {
     }, []);
 
     const Marquee = ({ text }: { text: string }) => (
-        <div className="bg-gray-900 overflow-hidden py-4 border-y border-white/5 relative z-20">
+        <div className="bg-white overflow-hidden py-6 border-y border-gray-100 relative z-20">
             <div className="animate-marquee whitespace-nowrap">
                 {[...Array(10)].map((_, i) => (
-                    <span key={i} className="text-white/20 text-4xl font-black uppercase tracking-tighter mx-8 inline-block select-none">
-                        {text} <span className="text-itm-gold">•</span>
+                    <span key={i} className="text-gray-200 text-4xl font-black uppercase tracking-tighter mx-8 inline-block select-none">
+                        {text} <span className="text-itm-red">•</span>
                     </span>
                 ))}
             </div>
@@ -36,48 +36,48 @@ export default function Home() {
     return (
         <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0A0A0A] pt-20">
+            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-20">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-itm-red/20 rounded-full blur-[120px] animate-pulse" />
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-itm-gold/10 rounded-full blur-[120px] animate-pulse delay-700" />
+                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-itm-gold/[0.03] rounded-full blur-[140px]" />
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-full mb-8 animate-float">
-                            <span className="w-2 h-2 bg-itm-gold rounded-full animate-ping" />
-                            <span className="text-itm-gold text-sm font-bold tracking-widest uppercase">Live Ambassador Network</span>
+                        <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-2 rounded-full mb-10 animate-float shadow-sm">
+                            <span className="w-2 h-2 bg-itm-red rounded-full animate-ping" />
+                            <span className="text-itm-red text-xs font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
+                        <h1 className="text-6xl md:text-9xl font-black text-gray-900 mb-8 tracking-tighter leading-[0.85]">
                             EXPERIENCE <br />
                             <span className="gradient-text">ITM CAMPUS</span> <br />
                             DIRECTLY.
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-white/60 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-xl md:text-2xl text-gray-500 mb-14 max-w-2xl mx-auto font-medium leading-relaxed">
                             Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                            <a href="#ambassadors" className="group relative bg-itm-red text-white px-10 py-5 rounded-2xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/20 overflow-hidden">
-                                <span className="relative z-10">START CONNECTING</span>
+                            <a href="#ambassadors" className="group relative bg-itm-red text-white px-12 py-5 rounded-3xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/30 overflow-hidden">
+                                <span className="relative z-10 tracking-widest">START CONNECTING</span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-itm-red via-red-500 to-itm-red translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out opacity-20" />
                             </a>
 
                             {!loading && ambassadors.length > 0 && (
-                                <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+                                <div className="flex items-center gap-4 bg-gray-50 px-6 py-4 rounded-3xl border border-gray-100 shadow-sm">
                                     <div className="flex -space-x-4">
                                         {ambassadors.slice(0, 3).map((a) => (
-                                            <div key={a.id} className="w-12 h-12 rounded-full border-2 border-itm-red overflow-hidden relative group">
-                                                <img src={a.photo_url} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                            <div key={a.id} className="w-12 h-12 rounded-full border-2 border-white shadow-sm overflow-hidden relative group">
+                                                <img src={a.photo_url} alt="" className="w-full h-full object-cover transition-all duration-500" />
                                             </div>
                                         ))}
                                     </div>
                                     <div className="text-left">
-                                        <div className="text-white font-black text-lg">+{ambassadors.length} Students</div>
-                                        <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Awaiting Chat</div>
+                                        <div className="text-gray-900 font-black text-lg">+{ambassadors.length} Students</div>
+                                        <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest leading-none">Awaiting Chat</div>
                                     </div>
                                 </div>
                             )}
@@ -170,21 +170,21 @@ export default function Home() {
             </section>
 
             {/* Footer */}
-            <footer className="bg-[#0A0A0A] text-white/40 py-20 border-t border-white/5">
+            <footer className="bg-gray-50 text-gray-400 py-24 border-t border-gray-100">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
-                        <div className="flex items-center gap-4 grayscale brightness-200">
+                        <div className="flex items-center gap-4 grayscale opacity-50">
                             <img src="/logo.png" alt="ITM" className="h-10 w-auto" />
-                            <div className="h-8 w-[1px] bg-white/20" />
-                            <div className="font-black tracking-widest text-lg text-white">STUDENT CONNECT</div>
+                            <div className="h-8 w-[1px] bg-gray-200" />
+                            <div className="font-black tracking-[0.2em] text-lg text-gray-900">STUDENT CONNECT</div>
                         </div>
-                        <div className="flex gap-10 text-sm font-black tracking-widest uppercase">
-                            <a href="#" className="hover:text-itm-gold transition-colors">Privacy</a>
-                            <a href="#" className="hover:text-itm-gold transition-colors">Terms</a>
-                            <a href="/admin-stats/dashboard" className="hover:text-itm-gold transition-colors">Admin</a>
+                        <div className="flex gap-10 text-[10px] font-black tracking-[0.3em] uppercase text-gray-400">
+                            <a href="#" className="hover:text-itm-red transition-colors">Privacy</a>
+                            <a href="#" className="hover:text-itm-red transition-colors">Terms</a>
+                            <a href="/admin-stats/dashboard" className="hover:text-itm-red transition-colors">Admin</a>
                         </div>
                     </div>
-                    <div className="text-center text-xs font-bold tracking-[0.2em] uppercase opacity-30">
+                    <div className="text-center text-[10px] font-black tracking-[0.4em] uppercase opacity-40 text-gray-400">
                         © 2026 ITM MBA STUDENT CONNECT PLATFORM • TRANSFORMING ADMISSIONS
                     </div>
                 </div>
