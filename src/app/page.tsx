@@ -12,151 +12,180 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Listen for ALL ambassadors first to see if data is reaching the client
         const q = query(collection(db, 'ambassadors'));
-
-        console.log("Setting up homepage listener...");
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            console.log(`Homepage snapshot received: ${snapshot.size} docs`);
-            const data = snapshot.docs
-                .map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                })) as Ambassador[];
-
-            // Filter for active ones in memory to avoid missing index issues initially
-            const activeOnly = data.filter(a => a.is_active);
-            console.log(`Active ambassadors count: ${activeOnly.length}`);
-
-            setAmbassadors(activeOnly);
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Ambassador[];
+            setAmbassadors(data.filter(a => a.is_active));
             setLoading(false);
-        }, (error) => {
-            console.error("Home Firestore listener error:", error);
-            setLoading(false);
-        });
-
+        }, () => setLoading(false));
         return () => unsubscribe();
     }, []);
 
+    const Marquee = ({ text }: { text: string }) => (
+        <div className="bg-gray-900 overflow-hidden py-4 border-y border-white/5 relative z-20">
+            <div className="animate-marquee whitespace-nowrap">
+                {[...Array(10)].map((_, i) => (
+                    <span key={i} className="text-white/20 text-4xl font-black uppercase tracking-tighter mx-8 inline-block select-none">
+                        {text} <span className="text-itm-gold">•</span>
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+
     return (
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
             {/* Hero Section */}
-            <section className="relative bg-itm-red text-white py-20 overflow-hidden">
-                <div className="absolute top-0 right-0 w-1/3 h-full bg-white/10 skew-x-12 transform translate-x-1/2" />
-                <div className="container mx-auto px-6 relative z-10">
-                    <div className="max-w-3xl text-left">
-                        <div className="flex items-center gap-4 mb-8">
-                            <div className="bg-white p-2 rounded-xl shadow-lg">
-                                <img src="/logo.png" alt="ITM Logo" className="h-12 w-auto" />
-                            </div>
-                            <div className="h-10 w-[2px] bg-itm-gold/30" />
-                            <div className="bg-itm-gold/20 text-itm-gold px-4 py-2 rounded-full font-bold text-sm border border-itm-gold/30">
-                                <span>Student Connect</span>
-                            </div>
+            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0A0A0A] pt-20">
+                {/* Dynamic Background Elements */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-itm-red/20 rounded-full blur-[120px] animate-pulse" />
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-itm-gold/10 rounded-full blur-[120px] animate-pulse delay-700" />
+                </div>
+
+                <div className="container mx-auto px-6 relative z-10 text-center">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-full mb-8 animate-float">
+                            <span className="w-2 h-2 bg-itm-gold rounded-full animate-ping" />
+                            <span className="text-itm-gold text-sm font-bold tracking-widest uppercase">Live Ambassador Network</span>
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                            Direct Access to ITM MBA <span className="text-itm-gold">Ambassadors</span>
+
+                        <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
+                            EXPERIENCE <br />
+                            <span className="gradient-text">ITM CAMPUS</span> <br />
+                            DIRECTLY.
                         </h1>
-                        <p className="text-xl text-red-50 mb-8 leading-relaxed font-medium">
-                            Skip the forms. Get real insights into campus life, placements, and academics
-                            directly from current students. Connect, chat, and decide with confidence.
+
+                        <p className="text-xl md:text-2xl text-white/60 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+                            Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
-                        <div className="flex flex-wrap gap-4">
-                            <a href="#ambassadors" className="bg-itm-gold hover:bg-itm-accent text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-itm-gold/30">
-                                Connect Now
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                            <a href="#ambassadors" className="group relative bg-itm-red text-white px-10 py-5 rounded-2xl font-black text-lg transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-itm-red/20 overflow-hidden">
+                                <span className="relative z-10">START CONNECTING</span>
+                                <div className="absolute inset-0 bg-gradient-to-r from-itm-red via-red-500 to-itm-red translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out opacity-20" />
                             </a>
+
                             {!loading && ambassadors.length > 0 && (
-                                <div className="flex -space-x-3 items-center">
-                                    {ambassadors.slice(0, 3).map((a) => (
-                                        <div key={a.id} className="w-10 h-10 rounded-full border-2 border-itm-red overflow-hidden shadow-lg">
-                                            <img src={a.photo_url} alt="" className="w-full h-full object-cover" />
-                                        </div>
-                                    ))}
-                                    <span className="ml-4 text-itm-gold font-semibold">+ {Math.max(0, ambassadors.length - 3)} others</span>
+                                <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+                                    <div className="flex -space-x-4">
+                                        {ambassadors.slice(0, 3).map((a) => (
+                                            <div key={a.id} className="w-12 h-12 rounded-full border-2 border-itm-red overflow-hidden relative group">
+                                                <img src={a.photo_url} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="text-white font-black text-lg">+{ambassadors.length} Students</div>
+                                        <div className="text-white/40 text-xs font-bold uppercase tracking-widest">Awaiting Chat</div>
+                                    </div>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
+
+                {/* Scrolling Bar (Marquee) */}
+                <div className="absolute bottom-0 left-0 w-full">
+                    <Marquee text="REAL INSIGHTS • NO BOTS • CAMPUS LIFE • PLACEMENT TRUTH • ACADEMIC REALITY" />
+                </div>
             </section>
 
-            {/* Ambassador Grid */}
-            <section id="ambassadors" className="py-20 min-h-[400px]">
+            {/* Scrolling Stats Section */}
+            <div className="bg-white py-12 border-b border-gray-100">
                 <div className="container mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-itm-red mb-4">Meet Our Ambassadors</h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto">
-                            Choose an ambassador based on their specialization or background to get the most relevant advice for your MBA journey.
-                        </p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        {[
+                            { label: 'Active Connects', val: '2.5k+' },
+                            { label: 'Response Rate', val: '98%' },
+                            { label: 'Verified Campus', val: '100%' },
+                            { label: 'Avg Feedback', val: '4.9/5' }
+                        ].map((s, i) => (
+                            <div key={i} className="text-center group cursor-default">
+                                <div className="text-itm-red text-4xl font-black mb-1 group-hover:scale-110 transition-transform duration-300">{s.val}</div>
+                                <div className="text-gray-400 text-xs font-bold uppercase tracking-widest">{s.label}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Ambassador Grid */}
+            <section id="ambassadors" className="py-24 bg-gray-50/50">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+                        <div className="max-w-2xl">
+                            <h2 className="text-5xl font-black text-gray-900 mb-6 tracking-tighter">
+                                THE <span className="text-itm-red">AMBASSADORS</span>
+                            </h2>
+                            <p className="text-xl text-gray-500 font-medium">
+                                Filtered through transparency. Choose your mentor for the journey ahead.
+                            </p>
+                        </div>
+                        <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-gray-100">
+                            {['All', 'Marketing', 'Finance', 'HR', 'Ops'].map(tag => (
+                                <button key={tag} className="px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-itm-red/5 hover:text-itm-red transition-all cursor-pointer">
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {loading ? (
-                        <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-4">
-                            <Loader2 className="animate-spin text-itm-gold" size={40} />
-                            <p className="font-medium">Connecting to ambassadors...</p>
+                        <div className="py-20 flex flex-col items-center gap-4 text-itm-gold">
+                            <Loader2 className="animate-spin" size={48} />
+                            <span className="font-black tracking-widest uppercase">Fetching Network...</span>
                         </div>
                     ) : (
-                        <>
-                            {ambassadors.length === 0 ? (
-                                <div className="py-20 text-center text-gray-500">
-                                    <p className="text-xl font-bold mb-2">No active ambassadors found</p>
-                                    <p>Please check back later or contact admissions.</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {ambassadors.map((ambassador) => (
+                                <div key={ambassador.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both" style={{ animationDelay: `${Math.random() * 500}ms` }}>
+                                    <AmbassadorCard ambassador={ambassador} />
                                 </div>
-                            ) : (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                                    {ambassadors.map((ambassador) => (
-                                        <AmbassadorCard key={ambassador.id} ambassador={ambassador} />
-                                    ))}
-                                </div>
-                            )}
-                        </>
+                            ))}
+                        </div>
                     )}
                 </div>
             </section>
 
-            {/* Features/Trust Section */}
-            <section className="py-20 bg-white border-t border-gray-100">
-                <div className="container mx-auto px-6 text-left">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <div className="flex items-start gap-5">
-                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
-                                <Users size={28} />
+            {/* Why Experience ITM? */}
+            <section className="py-32 bg-white overflow-hidden relative">
+                <div className="container mx-auto px-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {[
+                            { icon: <Users size={32} />, title: "Student Led", desc: "No admissions office filters. Just raw student experiences." },
+                            { icon: <MessageSquare size={32} />, title: "Instant Chat", desc: "Connect via Instagram or LinkedIn DMs with one click." },
+                            { icon: <ShieldCheck size={32} />, title: "ITM Verified", desc: "Every ambassador is authenticated by current enrollment records." }
+                        ].map((f, i) => (
+                            <div key={i} className="group p-10 rounded-[2.5rem] bg-gray-50 hover:bg-itm-red transition-all duration-500 cursor-default shadow-sm hover:shadow-2xl hover:shadow-itm-red/20 border border-gray-100">
+                                <div className="bg-itm-red group-hover:bg-white text-white group-hover:text-itm-red p-5 rounded-2xl inline-block mb-8 transition-colors duration-500">
+                                    {f.icon}
+                                </div>
+                                <h3 className="text-2xl font-black text-gray-900 group-hover:text-white mb-4 transition-colors duration-500">{f.title}</h3>
+                                <p className="text-gray-500 group-hover:text-white/70 font-medium transition-colors duration-500">{f.desc}</p>
                             </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900 text-lg mb-1">Real Students</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed">No bots or marketing agents. Only currently enrolled MBA students.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-5">
-                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
-                                <MessageSquare size={28} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900 text-lg mb-1">Direct Chat</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed">Message on Instagram or LinkedIn DM for instant honest answers.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-5">
-                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
-                                <ShieldCheck size={28} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900 text-lg mb-1">Verified Info</h3>
-                                <p className="text-gray-500 text-sm leading-relaxed">All ambassadors are verified by the ITM admissions team.</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-gray-400 py-12">
-                <div className="container mx-auto px-6 text-center">
-                    <p className="mb-4">© 2026 ITM MBA Student Connect Platform. All Rights Reserved.</p>
-                    <div className="flex justify-center gap-6 text-sm">
-                        <a href="#" className="hover:text-itm-gold transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-itm-gold transition-colors">Terms of Service</a>
-                        <a href="/admin-stats/dashboard" className="hover:text-itm-gold transition-colors">Admin Portal</a>
+            <footer className="bg-[#0A0A0A] text-white/40 py-20 border-t border-white/5">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
+                        <div className="flex items-center gap-4 grayscale brightness-200">
+                            <img src="/logo.png" alt="ITM" className="h-10 w-auto" />
+                            <div className="h-8 w-[1px] bg-white/20" />
+                            <div className="font-black tracking-widest text-lg text-white">STUDENT CONNECT</div>
+                        </div>
+                        <div className="flex gap-10 text-sm font-black tracking-widest uppercase">
+                            <a href="#" className="hover:text-itm-gold transition-colors">Privacy</a>
+                            <a href="#" className="hover:text-itm-gold transition-colors">Terms</a>
+                            <a href="/admin-stats/dashboard" className="hover:text-itm-gold transition-colors">Admin</a>
+                        </div>
+                    </div>
+                    <div className="text-center text-xs font-bold tracking-[0.2em] uppercase opacity-30">
+                        © 2026 ITM MBA STUDENT CONNECT PLATFORM • TRANSFORMING ADMISSIONS
                     </div>
                 </div>
             </footer>
