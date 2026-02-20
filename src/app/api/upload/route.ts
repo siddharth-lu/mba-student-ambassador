@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { storage } from '@/lib/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { adminStorage } from '@/lib/firebase-admin';
 
 export async function POST(request: Request) {
     try {
@@ -22,37 +21,37 @@ export async function POST(request: Request) {
 
         // Generate unique file name
         const sanitizedName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-        const uniqueName = `ambassadors/${Date.now()}_${sanitizedName}`;
+        const fileName = `ambassadors/${Date.now()}_${sanitizedName}`;
 
-        console.log(`Attempting upload to Firebase Storage: ${uniqueName} (${file.type}, ${file.size} bytes)`);
+        console.log(`Uploading via Admin SDK: ${fileName} (${file.type})`);
 
-        // Create storage reference
-        const storageRef = ref(storage, uniqueName);
+        // Use Firebase Admin SDK to upload
+        // Admin SDK bypasses storage security rules
+        const bucket = adminStorage.bucket();
+        const blob = bucket.file(fileName);
 
-        // Upload the file to Firebase Storage from the server
-        const snapshot = await uploadBytes(storageRef, buffer, {
+        await blob.save(buffer, {
             contentType: file.type,
+            metadata: {
+                firebaseStorageDownloadTokens: crypto.randomUUID(), // Helps with public URLs
+            }
         });
 
-        console.log('Upload successful, getting download URL...');
+        // Make the file public (optional, or use getDownloadURL equivalent)
+        // For Admin SDK, we usually generate a signed URL or use the standard public URL format
+        await blob.makePublic();
 
-        // Get the public download URL
-        const downloadUrl = await getDownloadURL(snapshot.ref);
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 
-        return NextResponse.json({ url: downloadUrl }, { status: 200 });
+        console.log('Upload successful via Admin SDK:', publicUrl);
+
+        return NextResponse.json({ url: publicUrl }, { status: 200 });
     } catch (error: any) {
-        console.error('SERVER-SIDE UPLOAD ERROR DETAILS:', {
-            message: error.message,
-            code: error.code,
-            customData: error.customData,
-            stack: error.stack,
-            serverResponse: error.serverResponse
-        });
+        console.error('SERVER-SIDE ADMIN UPLOAD ERROR:', error);
         return NextResponse.json(
             {
                 error: error.message || 'Upload failed',
-                code: error.code,
-                details: error.serverResponse || 'Check server logs'
+                details: error.stack || 'Check server logs'
             },
             { status: 500 }
         );
