@@ -16,6 +16,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --itm-red: #A31D45;
+  --itm-red-light: #FF5E8E;
   --itm-gold: #FF9900;
   --itm-accent: #E58A00;
   --glass-bg: rgba(255, 255, 255, 0.7);
@@ -112,7 +113,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, var(--itm-red), var(--itm-gold), var(--itm-red));
+  background: linear-gradient(90deg, var(--itm-red), var(--itm-red-light), var(--itm-red));
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;

@@ -62,7 +62,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
 
                 <div className={`${isCompact ? 'p-4 sm:p-6 md:p-8' : 'p-6 sm:p-8 md:p-10'} flex flex-col flex-grow relative text-center md:text-left transition-all`}>
                     <div className={`${isCompact ? 'mb-2 md:mb-6' : 'mb-6'}`}>
-                        <div className="text-itm-gold font-black text-[8px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-1 md:mb-2">{ambassador.specialization}</div>
+                        <div className="text-white/60 font-black text-[8px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-1 md:mb-2">{ambassador.specialization}</div>
                         <h3 className={`${isCompact ? 'text-lg sm:text-2xl md:text-3xl' : 'text-2xl sm:text-3xl md:text-4xl'} font-black text-white tracking-tighter leading-tight md:leading-none transition-all`}>{ambassador.name}</h3>
                     </div>
 
@@ -87,7 +87,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                                 {ambassador.instagram_url && (
                                     <button
                                         onClick={() => handleConnect('instagram')}
-                                        className="flex items-center justify-center gap-2 bg-white text-itm-red py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-gold hover:text-white transition-all duration-300 shadow-lg active:scale-95"
+                                        className="flex items-center justify-center gap-2 bg-white text-itm-red py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-white/90 transition-all duration-300 shadow-lg active:scale-95"
                                     >
                                         <Instagram size={16} />
                                         <span>Instagram</span>
@@ -97,7 +97,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                                 {ambassador.linkedin_url && (
                                     <button
                                         onClick={() => handleConnect('linkedin')}
-                                        className="flex items-center justify-center gap-2 bg-white text-itm-red py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-itm-gold hover:text-white transition-all duration-300 shadow-lg active:scale-95"
+                                        className="flex items-center justify-center gap-2 bg-white text-itm-red py-4 rounded-2xl font-black text-xs tracking-widest uppercase hover:bg-white/90 transition-all duration-300 shadow-lg active:scale-95"
                                     >
                                         <Linkedin size={16} />
                                         <span>LinkedIn</span>
