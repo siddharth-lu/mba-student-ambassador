@@ -64,7 +64,7 @@ export default function Home() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-white pt-4 md:pt-12 pb-12 md:pb-24">
+            <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-white pt-0 md:pt-12 pb-6 md:pb-24">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
@@ -74,7 +74,7 @@ export default function Home() {
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="max-w-4xl mx-auto">
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tighter leading-[1.1]">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-4 md:mb-6 tracking-tighter leading-[1.1]">
                             <span className="block mb-2 uppercase">ITM MBA <span className="lowercase">i</span>CONNECT'S</span>
                             <span
                                 key={wordIndex}
@@ -84,7 +84,7 @@ export default function Home() {
                             </span>
                         </h1>
 
-                        <p className="text-base md:text-xl text-gray-500 mb-6 md:mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+                        <p className="text-base md:text-xl text-gray-500 mb-4 md:mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
                             Skip the filtered brochures. Connect with verified ITM MBA students for raw, honest insights.
                         </p>
 
