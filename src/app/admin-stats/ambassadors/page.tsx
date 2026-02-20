@@ -101,20 +101,31 @@ export default function AmbassadorManagement() {
 
     const toggleStatus = async (id: string, currentStatus: boolean) => {
         try {
+            console.log(`Toggling status for student ${id} to ${!currentStatus}`);
             await updateDoc(doc(db, 'ambassadors', id), {
                 is_active: !currentStatus
             });
-        } catch (err) {
-            alert("Failed to update status");
+            console.log("Status update successful");
+        } catch (err: any) {
+            console.error("STATUS TOGGLE ERROR:", err);
+            alert(`Failed to update status: ${err.message || "Unknown error"}`);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (confirm('Are you sure you want to remove this ambassador?')) {
+        if (!id) {
+            console.error("No ID provided for deletion");
+            return;
+        }
+
+        if (confirm('Are you sure you want to remove this student?')) {
             try {
+                console.log(`Attempting to delete student with ID: ${id}`);
                 await deleteDoc(doc(db, 'ambassadors', id));
-            } catch (err) {
-                alert("Failed to delete ambassador");
+                console.log("Deletion successful");
+            } catch (err: any) {
+                console.error("DETAILED DELETE ERROR:", err);
+                alert(`Failed to delete student: ${err.message || "Permission denied or network issue"}`);
             }
         }
     };
@@ -182,8 +193,8 @@ export default function AmbassadorManagement() {
             }
             setIsModalOpen(false);
         } catch (err: any) {
-            console.error("Firestore save error:", err);
-            alert(`Error saving data to Firestore: ${err.message || "Unknown error"}. Make sure your rules allow it.`);
+            console.error("FIRESTORE SAVE ERROR:", err);
+            alert(`Error saving student data: ${err.message || "Unknown error"}. Check if your browser console shows more details.`);
         }
     };
 

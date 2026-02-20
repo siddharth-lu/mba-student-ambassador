@@ -10,7 +10,7 @@ import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestor
 export default function Home() {
     const [ambassadors, setAmbassadors] = useState<Ambassador[]>([]);
     const [loading, setLoading] = useState(true);
-    const [words] = useState(['STUDENT', 'AMBASSADOR', 'ROCKETS']);
+    const [words] = useState(['STUDENT', 'AMBASSADOR', 'ROCKSTARS']);
     const [wordIndex, setWordIndex] = useState(0);
     const [selectedTag, setSelectedTag] = useState('All');
     const [selectedAmbassador, setSelectedAmbassador] = useState<Ambassador | null>(null);
