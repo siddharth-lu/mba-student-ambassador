@@ -63,7 +63,7 @@ export default function Home() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-[540px] md:min-h-[85vh] flex items-start md:items-center justify-center overflow-hidden bg-white pt-10 md:pt-12 pb-6 md:pb-24">
+            <section className="relative min-h-[480px] md:min-h-[85vh] flex items-start md:items-center justify-center overflow-hidden bg-white pt-8 md:pt-12 pb-2 md:pb-24">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
