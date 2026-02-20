@@ -12,11 +12,18 @@ interface AmbassadorCardProps {
 }
 
 const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact = false }) => {
-    const [imgSrc, setImgSrc] = React.useState(getProxyImageUrl(ambassador.photo_url) || getPlaceholderUrl(ambassador.name));
+    const resolveImageUrl = (url?: string, name?: string) => {
+        if (!url || url.includes('ui-avatars.com')) {
+            return getPlaceholderUrl(name);
+        }
+        return getProxyImageUrl(url);
+    };
+
+    const [imgSrc, setImgSrc] = React.useState(resolveImageUrl(ambassador.photo_url, ambassador.name));
 
     // Sync imgSrc when ambassador data changes (crucial for admin dashboard)
     React.useEffect(() => {
-        setImgSrc(getProxyImageUrl(ambassador.photo_url) || getPlaceholderUrl(ambassador.name));
+        setImgSrc(resolveImageUrl(ambassador.photo_url, ambassador.name));
     }, [ambassador.photo_url, ambassador.name]);
 
     const handleConnect = async (platform: 'instagram' | 'linkedin') => {
