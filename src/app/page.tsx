@@ -80,41 +80,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Features/Trust Section */}
-            <section className="py-12 bg-white border-b border-gray-100">
-                <div className="container mx-auto px-6 text-left">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="flex items-start gap-4">
-                            <div className="bg-red-50 p-3 rounded-lg text-itm-red shrink-0">
-                                <Users size={24} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900">Real Students</h3>
-                                <p className="text-gray-500 text-sm">No bots or marketing agents. Only currently enrolled MBA students.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="bg-red-50 p-3 rounded-lg text-itm-red shrink-0">
-                                <MessageSquare size={24} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900">Direct Chat</h3>
-                                <p className="text-gray-500 text-sm">Message on Instagram or LinkedIn DM for instant honest answers.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="bg-red-50 p-3 rounded-lg text-itm-red shrink-0">
-                                <ShieldCheck size={24} />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-gray-900">Verified Info</h3>
-                                <p className="text-gray-500 text-sm">All ambassadors are verified by the ITM admissions team.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* Ambassador Grid */}
             <section id="ambassadors" className="py-20 min-h-[400px]">
                 <div className="container mx-auto px-6">
@@ -146,6 +111,41 @@ export default function Home() {
                             )}
                         </>
                     )}
+                </div>
+            </section>
+
+            {/* Features/Trust Section */}
+            <section className="py-20 bg-white border-t border-gray-100">
+                <div className="container mx-auto px-6 text-left">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div className="flex items-start gap-5">
+                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
+                                <Users size={28} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-gray-900 text-lg mb-1">Real Students</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">No bots or marketing agents. Only currently enrolled MBA students.</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-5">
+                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
+                                <MessageSquare size={28} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-gray-900 text-lg mb-1">Direct Chat</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">Message on Instagram or LinkedIn DM for instant honest answers.</p>
+                            </div>
+                        </div>
+                        <div className="flex items-start gap-5">
+                            <div className="bg-pink-50 p-4 rounded-2xl text-itm-red shrink-0">
+                                <ShieldCheck size={28} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-gray-900 text-lg mb-1">Verified Info</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">All ambassadors are verified by the ITM admissions team.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 

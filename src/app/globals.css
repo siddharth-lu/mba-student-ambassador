@@ -10,7 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui;
   --font-display: var(--font-outfit), ui-sans-serif, system-ui;
-  --color-itm-red: #A31D1D;
+  --color-itm-red: #A31D45;
+  /* Adjusted to the requested pink shade */
   --color-itm-gold: #FF9900;
   --color-itm-accent: #E58A00;
 }

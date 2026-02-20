@@ -25,12 +25,15 @@ import {
     orderBy
 } from 'firebase/firestore';
 
+
+const DEFAULT_PLACEHOLDER = 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
+
 const EMPTY_FORM: Omit<Ambassador, 'id'> = {
     name: '',
     specialization: 'Marketing',
     year: '1st Year',
     tagline: '',
-    photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&h=200&auto=format&fit=crop',
+    photo_url: DEFAULT_PLACEHOLDER,
     instagram_url: '',
     linkedin_url: '',
     is_active: true
@@ -43,6 +46,8 @@ export default function AmbassadorManagement() {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [formData, setFormData] = useState<Omit<Ambassador, 'id'>>(EMPTY_FORM);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     // Real-time listener for ambassadors
     useEffect(() => {
@@ -96,6 +101,42 @@ export default function AmbassadorManagement() {
 
     const handleInputChange = (field: keyof Omit<Ambassador, 'id'>, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 10 * 1024 * 1024) {
+            alert("File is too large. Max 10MB allowed.");
+            return;
+        }
+
+        try {
+            setIsUploading(true);
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Upload failed');
+            }
+
+            setFormData(prev => ({ ...prev, photo_url: data.url }));
+        } catch (err: any) {
+            console.error('Photo upload error:', err);
+            alert('Failed to upload photo: ' + (err.message || 'Unknown error'));
+        } finally {
+            setIsUploading(false);
+            if (e.target) e.target.value = '';
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -226,11 +267,35 @@ export default function AmbassadorManagement() {
 
                         <form onSubmit={handleSubmit} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
                             <div className="flex flex-col items-center gap-4 mb-4">
-                                <div className="relative w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md">
-                                    <img src={formData.photo_url} alt="Preview" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                                        <Camera className="text-white" size={24} />
+                                <input
+                                    type="file"
+                                    accept="*"
+                                    className="hidden"
+                                    ref={fileInputRef}
+                                    onChange={handlePhotoUpload}
+                                />
+                                <div
+                                    className="relative group cursor-pointer"
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <div className="w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md relative">
+                                        <img
+                                            src={formData.photo_url || DEFAULT_PLACEHOLDER}
+                                            alt="Preview"
+                                            className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}
+                                        />
+                                        {isUploading && (
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="w-8 h-8 border-4 border-itm-gold border-t-transparent rounded-full animate-spin"></div>
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Camera className="text-white" size={24} />
+                                        </div>
                                     </div>
+                                    <p className="text-xs font-bold text-itm-gold mt-2 text-center uppercase tracking-wider group-hover:underline">
+                                        {formData.photo_url === DEFAULT_PLACEHOLDER ? 'Upload Photo' : 'Change Photo'}
+                                    </p>
                                 </div>
                             </div>
 
@@ -271,7 +336,7 @@ export default function AmbassadorManagement() {
                                         <option>2nd Year</option>
                                     </select>
                                 </div>
-                                <div className="space-y-1 text-left">
+                                <div className="space-y-1 text-left md:col-span-2">
                                     <label className="text-sm font-bold text-gray-700 ml-1">Instagram URL</label>
                                     <input
                                         type="url"
@@ -281,23 +346,13 @@ export default function AmbassadorManagement() {
                                         className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all"
                                     />
                                 </div>
-                                <div className="space-y-1 text-left">
+                                <div className="space-y-1 text-left md:col-span-2">
                                     <label className="text-sm font-bold text-gray-700 ml-1">LinkedIn URL</label>
                                     <input
                                         type="url"
                                         value={formData.linkedin_url}
                                         onChange={(e) => handleInputChange('linkedin_url', e.target.value)}
                                         placeholder="https://linkedin.com/in/profile"
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-1 text-left">
-                                    <label className="text-sm font-bold text-gray-700 ml-1">Photo URL</label>
-                                    <input
-                                        type="text"
-                                        value={formData.photo_url}
-                                        onChange={(e) => handleInputChange('photo_url', e.target.value)}
-                                        placeholder="https://images.unsplash.com/..."
                                         className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all"
                                     />
                                 </div>
