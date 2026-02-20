@@ -226,7 +226,6 @@ export default function Home() {
                         <div className="flex gap-6 md:gap-10 text-[8px] md:text-[10px] font-black tracking-[0.3em] uppercase text-gray-400">
                             <a href="#" className="hover:text-itm-red transition-colors">Privacy</a>
                             <a href="#" className="hover:text-itm-red transition-colors">Terms</a>
-                            <a href="/admin-stats/dashboard" className="hover:text-itm-red transition-colors">Admin</a>
                         </div>
                     </div>
                     <div className="text-center text-[8px] md:text-[10px] font-black tracking-[0.3em] md:tracking-[0.4em] uppercase opacity-40 text-gray-400">
