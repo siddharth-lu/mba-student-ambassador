@@ -49,7 +49,12 @@ export async function POST(request: Request) {
         return NextResponse.json(
             {
                 error: error.message || 'Upload failed',
-                details: error.stack || 'Check server logs'
+                code: error.code || 500,
+                diagnostic: {
+                    bucket: adminStorage.bucket().name,
+                    projectId: process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+                    message: "If the bucket name above is wrong, please correct NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET in Vercel."
+                }
             },
             { status: 500 }
         );

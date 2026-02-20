@@ -3,13 +3,17 @@ import admin from 'firebase-admin';
 if (!admin.apps.length) {
     try {
         const projectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'mba-student-chat';
-        // If bucket is missing or is just a sender ID (number), infer it from project ID
-        let bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+
+        // Use the env var if it's a valid bucket name, otherwise try to infer it
+        let bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '';
         if (!bucketName || /^\d+$/.test(bucketName)) {
+            // Most newer projects use .firebasestorage.app, but some use .appspot.com
+            // We'll default to .firebasestorage.app as seen in their local .env
             bucketName = `${projectId}.firebasestorage.app`;
+            console.log(`Inferring bucket name from project ID: ${bucketName}`);
         }
 
-        console.log(`Initializing Firebase Admin for project: ${projectId}, bucket: ${bucketName}`);
+        console.log(`Initializing Admin SDK for project [${projectId}] with bucket [${bucketName}]`);
 
         admin.initializeApp({
             credential: admin.credential.cert({
@@ -20,8 +24,8 @@ if (!admin.apps.length) {
             }),
             storageBucket: bucketName,
         });
-    } catch (error) {
-        console.error('Firebase admin initialization error', error);
+    } catch (error: any) {
+        console.error('CRITICAL: Firebase admin initialization failed!', error.message);
     }
 }
 
