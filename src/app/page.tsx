@@ -12,6 +12,7 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
     const [words] = useState(['STUDENT', 'AMBASSADOR', 'ROCKETS']);
     const [wordIndex, setWordIndex] = useState(0);
+    const [selectedTag, setSelectedTag] = useState('All');
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -29,6 +30,10 @@ export default function Home() {
         }, () => setLoading(false));
         return () => unsubscribe();
     }, []);
+    const filteredAmbassadors = selectedTag === 'All'
+        ? ambassadors
+        : ambassadors.filter(a => a.specialization.toLowerCase().includes(selectedTag.toLowerCase()));
+
 
     const Marquee = ({ text }: { text: string }) => (
         <div className="bg-white overflow-hidden py-6 border-y border-gray-100 relative z-20">
@@ -119,9 +124,16 @@ export default function Home() {
                                 Filtered through transparency. Choose your mentor for the journey ahead.
                             </p>
                         </div>
-                        <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-gray-100">
+                        <div className="flex bg-white p-1 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto max-w-full">
                             {['All', 'Marketing', 'Finance', 'HR', 'Ops'].map(tag => (
-                                <button key={tag} className="px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-itm-red/5 hover:text-itm-red transition-all cursor-pointer">
+                                <button
+                                    key={tag}
+                                    onClick={() => setSelectedTag(tag)}
+                                    className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${selectedTag === tag
+                                        ? 'bg-itm-red text-white shadow-lg'
+                                        : 'text-gray-400 hover:bg-itm-red/5 hover:text-itm-red'
+                                        }`}
+                                >
                                     {tag}
                                 </button>
                             ))}
@@ -135,8 +147,8 @@ export default function Home() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {ambassadors.map((ambassador) => (
-                                <div key={ambassador.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both" style={{ animationDelay: `${Math.random() * 500}ms` }}>
+                            {filteredAmbassadors.map((ambassador) => (
+                                <div key={ambassador.id} className="animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both">
                                     <AmbassadorCard ambassador={ambassador} />
                                 </div>
                             ))}
