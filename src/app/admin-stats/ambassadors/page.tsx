@@ -27,6 +27,11 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
+const getPlaceholder = (name?: string) => {
+    if (!name) return 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=A31D45&color=fff&size=512`;
+};
+
 const DEFAULT_PLACEHOLDER = 'https://ui-avatars.com/api/?name=User&background=A31D45&color=fff&size=512';
 
 const EMPTY_FORM: Omit<Ambassador, 'id'> = {
@@ -337,12 +342,16 @@ export default function AmbassadorManagement() {
                                 >
                                     <div className="w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md relative">
                                         <img
-                                            src={formData.photo_url || DEFAULT_PLACEHOLDER}
+                                            key={formData.photo_url}
+                                            src={formData.photo_url || getPlaceholder(formData.name)}
                                             alt="Preview"
                                             className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}
                                             onError={(e) => {
                                                 const target = e.target as HTMLImageElement;
-                                                target.src = DEFAULT_PLACEHOLDER;
+                                                const fallback = getPlaceholder(formData.name);
+                                                if (target.src !== fallback) {
+                                                    target.src = fallback;
+                                                }
                                             }}
                                         />
                                         {isUploading && (
