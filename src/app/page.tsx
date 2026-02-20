@@ -74,7 +74,7 @@ export default function Home() {
                     <div className="max-w-4xl mx-auto">
 
                         <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-4 md:mb-6 tracking-tighter leading-[1.1]">
-                            <span className="block mb-1 md:mb-2 uppercase text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.2em] font-bold text-gray-500">Meet ITM MBA iConnect</span>
+                            <span className="block mb-1 md:mb-2 uppercase text-xs sm:text-sm md:text-base lg:text-lg tracking-[0.2em] font-bold text-gray-500">Meet ITM MBA <span className="lowercase text-[1.2em]">i</span>Connect</span>
                             <span
                                 key={wordIndex}
                                 className="gradient-text word-animate-in inline-block py-1 text-5xl md:text-7xl lg:text-9xl uppercase"
