@@ -64,11 +64,11 @@ export default function Home() {
                             <span className="text-itm-red text-[10px] font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tighter leading-[1.1] uppercase">
-                            <span className="block mb-2">ITM MBA iConnect's</span>
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tighter leading-[1.1]">
+                            <span className="block mb-2 uppercase">ITM MBA <span className="lowercase">i</span>CONNECT'S</span>
                             <span
                                 key={wordIndex}
-                                className="gradient-text word-animate-in inline-block py-1 text-5xl md:text-7xl lg:text-9xl"
+                                className="gradient-text word-animate-in inline-block py-1 text-5xl md:text-7xl lg:text-9xl uppercase"
                             >
                                 {words[wordIndex]}
                             </span>
