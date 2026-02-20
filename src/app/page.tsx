@@ -10,6 +10,15 @@ import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestor
 export default function Home() {
     const [ambassadors, setAmbassadors] = useState<Ambassador[]>([]);
     const [loading, setLoading] = useState(true);
+    const [words] = useState(['STUDENT', 'AMBASSADOR', 'ROCKETS']);
+    const [wordIndex, setWordIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setWordIndex((prev) => (prev + 1) % words.length);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, [words]);
 
     useEffect(() => {
         const q = query(collection(db, 'ambassadors'));
@@ -50,10 +59,12 @@ export default function Home() {
                             <span className="text-itm-red text-xs font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
                         </div>
 
-                        <h1 className="text-6xl md:text-9xl font-black text-gray-900 mb-8 tracking-tighter leading-[0.85]">
-                            EXPERIENCE <br />
-                            <span className="gradient-text">ITM CAMPUS</span> <br />
-                            DIRECTLY.
+                        <h1 className="text-5xl md:text-8xl font-black text-gray-900 mb-8 tracking-tighter leading-[0.85] uppercase">
+                            ITM MBA <br />
+                            iConnect's <br />
+                            <span className="gradient-text transition-all duration-500 inline-block min-w-[300px]">
+                                {words[wordIndex]}
+                            </span>
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-500 mb-14 max-w-2xl mx-auto font-medium leading-relaxed">
