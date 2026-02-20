@@ -54,8 +54,8 @@ export default function Home() {
 
     return (
         <main className="min-h-screen bg-white selection:bg-itm-red/20 selection:text-itm-red">
-            {/* Mobile Sticky Navbar */}
-            <nav className="md:hidden sticky top-0 z-[60] bg-itm-red px-6 py-4 flex items-center justify-between shadow-lg">
+            {/* Sticky Navbar */}
+            <nav className="sticky top-0 z-[60] bg-itm-red px-6 py-4 flex items-center justify-between shadow-lg">
                 <div className="flex items-center gap-3">
                     <img src="/logo.png" alt="ITM" className="h-8 w-auto brightness-0 invert" />
                     <div className="h-6 w-[1px] bg-white/20" />
@@ -64,7 +64,7 @@ export default function Home() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden bg-white pt-8 md:pt-28 pb-12 md:pb-24">
+            <section className="relative min-h-[70vh] md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-white pt-4 md:pt-12 pb-12 md:pb-24">
                 {/* Dynamic Background Elements */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-itm-red/[0.03] rounded-full blur-[140px]" />
@@ -73,10 +73,6 @@ export default function Home() {
 
                 <div className="container mx-auto px-6 relative z-10 text-center">
                     <div className="max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-2 rounded-full mb-8 animate-float shadow-sm">
-                            <span className="w-2 h-2 bg-itm-red rounded-full animate-ping" />
-                            <span className="text-itm-red text-[10px] font-black tracking-[0.2em] uppercase">Live Ambassador Network</span>
-                        </div>
 
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6 tracking-tighter leading-[1.1]">
                             <span className="block mb-2 uppercase">ITM MBA <span className="lowercase">i</span>CONNECT'S</span>
