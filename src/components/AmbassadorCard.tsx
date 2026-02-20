@@ -9,9 +9,15 @@ interface AmbassadorCardProps {
     ambassador: Ambassador;
 }
 
+const DEFAULT_PLACEHOLDER = "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&h=200&auto=format&fit=crop";
+
 const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador }) => {
+    const [imgSrc, setImgSrc] = React.useState(
+        ambassador.photo_url?.startsWith('/uploads/') ? DEFAULT_PLACEHOLDER : (ambassador.photo_url || DEFAULT_PLACEHOLDER)
+    );
+
     const handleConnect = async (platform: 'instagram' | 'linkedin') => {
-        // Lead tracking logic will go here
+        // ... (existing code remains same)
         const url = platform === 'instagram' ? ambassador.instagram_url : ambassador.linkedin_url;
 
         try {
@@ -34,12 +40,14 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador }) => {
 
     return (
         <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full group">
-            <div className="relative h-64 w-full">
+            <div className="relative h-64 w-full bg-gray-50">
                 <Image
-                    src={ambassador.photo_url}
+                    src={imgSrc}
                     alt={ambassador.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={() => setImgSrc(DEFAULT_PLACEHOLDER)}
+                    unoptimized={imgSrc.startsWith('http') && !imgSrc.includes('unsplash.com') && !imgSrc.includes('firebasestorage')}
                 />
                 <div className="absolute top-4 right-4 bg-itm-gold/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                     {ambassador.year}

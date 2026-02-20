@@ -106,7 +106,7 @@ export default function AmbassadorManagement() {
 
     const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file) return;
+        if (!file || isUploading) return;
 
         if (file.size > 10 * 1024 * 1024) {
             alert("File is too large. Max 10MB allowed.");
@@ -203,8 +203,15 @@ export default function AmbassadorManagement() {
                     {filteredAmbassadors.map((amb) => (
                         <div key={amb.id} className={`bg-white rounded-2xl border transition-all ${amb.is_active ? 'border-gray-100 shadow-sm' : 'border-gray-200 opacity-60 grayscale'}`}>
                             <div className="p-6 flex items-start gap-4">
-                                <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-gray-50 shadow-sm shrink-0">
-                                    <img src={amb.photo_url} alt={amb.name} className="w-full h-full object-cover" />
+                                <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-gray-50 shadow-sm shrink-0 bg-gray-50">
+                                    <img
+                                        src={amb.photo_url?.startsWith('/uploads/') ? DEFAULT_PLACEHOLDER : (amb.photo_url || DEFAULT_PLACEHOLDER)}
+                                        alt={amb.name}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = DEFAULT_PLACEHOLDER;
+                                        }}
+                                    />
                                 </div>
                                 <div className="flex-grow min-w-0">
                                     <h3 className="font-bold text-gray-900 truncate">{amb.name}</h3>
@@ -277,8 +284,8 @@ export default function AmbassadorManagement() {
                                     onChange={handlePhotoUpload}
                                 />
                                 <div
-                                    className="relative group cursor-pointer"
-                                    onClick={() => fileInputRef.current?.click()}
+                                    className={`relative group ${isUploading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                    onClick={() => !isUploading && fileInputRef.current?.click()}
                                 >
                                     <div className="w-28 h-28 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md relative">
                                         <img
