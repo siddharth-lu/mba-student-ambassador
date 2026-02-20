@@ -42,7 +42,7 @@ export default function Home() {
 
 
     const Marquee = ({ text }: { text: string }) => (
-        <div className="bg-white overflow-hidden py-6 border-y border-gray-100 relative z-20">
+        <div className="bg-white overflow-hidden py-3 md:py-6 border-y-[3px] border-itm-red relative z-20">
             <div className="animate-marquee whitespace-nowrap">
                 {[...Array(10)].map((_, i) => (
                     <span key={i} className="text-gray-200 text-2xl md:text-4xl font-black uppercase tracking-tighter mx-8 inline-block select-none">
