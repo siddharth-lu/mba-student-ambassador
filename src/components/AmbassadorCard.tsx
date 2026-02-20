@@ -48,7 +48,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         src={imgSrc}
                         alt={ambassador.name}
                         fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0"
+                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                         onError={() => setImgSrc(DEFAULT_PLACEHOLDER)}
                         unoptimized={imgSrc.startsWith('http') && !imgSrc.includes('unsplash.com') && !imgSrc.includes('firebasestorage')}
                     />
