@@ -345,6 +345,7 @@ export default function AmbassadorManagement() {
                                             key={formData.photo_url}
                                             src={formData.photo_url || getPlaceholder(formData.name)}
                                             alt="Preview"
+                                            referrerPolicy="no-referrer"
                                             className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}
                                             onError={(e) => {
                                                 const target = e.target as HTMLImageElement;
