@@ -340,6 +340,10 @@ export default function AmbassadorManagement() {
                                             src={formData.photo_url || DEFAULT_PLACEHOLDER}
                                             alt="Preview"
                                             className={`w-full h-full object-cover transition-all ${isUploading ? 'opacity-30' : ''}`}
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                target.src = DEFAULT_PLACEHOLDER;
+                                            }}
                                         />
                                         {isUploading && (
                                             <div className="absolute inset-0 flex items-center justify-center">
@@ -355,16 +359,26 @@ export default function AmbassadorManagement() {
                                     </p>
                                 </div>
 
-                                <div className="flex-grow space-y-4">
-                                    <div className="space-y-1">
-                                        <label className="text-sm font-bold text-gray-700 ml-1">Photo Link</label>
-                                        <input
-                                            type="text"
-                                            value={formData.photo_url}
-                                            onChange={(e) => handleInputChange('photo_url', e.target.value)}
-                                            placeholder="Paste direct image URL or upload..."
-                                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all text-sm font-medium"
-                                        />
+                                <div className="w-full space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-black uppercase tracking-widest text-gray-400 mb-1 block">LinkedIn / Instagram Photo Link</label>
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={formData.photo_url}
+                                                onChange={(e) => handleInputChange('photo_url', e.target.value)}
+                                                placeholder="Paste direct LinkedIn image URL..."
+                                                className="flex-grow bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all text-sm font-medium"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => fileInputRef.current?.click()}
+                                                className="bg-itm-red text-white px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-itm-red/90 transition-all flex items-center justify-center min-w-[120px]"
+                                            >
+                                                {isUploading ? '...' : 'Upload File'}
+                                            </button>
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 font-medium">Tip: Right-click a LinkedIn profile photo and select "Copy Image Address" to paste here.</p>
                                     </div>
                                 </div>
                             </div>
