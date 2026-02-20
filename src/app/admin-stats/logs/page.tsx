@@ -69,9 +69,9 @@ export default function InteractionLogs() {
                 </div>
                 <button
                     onClick={exportToCSV}
-                    className="bg-itm-red hover:bg-red-800 text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-itm-red/20"
+                    className="bg-itm-red hover:bg-red-800 text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-itm-red/20 text-sm md:text-base w-full md:w-auto"
                 >
-                    <Download size={20} />
+                    <Download size={18} />
                     <span>Export CSV</span>
                 </button>
             </div>
@@ -88,9 +88,9 @@ export default function InteractionLogs() {
                         className="w-full bg-gray-50 border-none rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-itm-gold/20 transition-all text-gray-900"
                     />
                 </div>
-                <button className="flex items-center gap-2 px-6 bg-red-50 hover:bg-red-100 rounded-xl py-4 md:py-0 transition-all">
+                <button className="flex items-center justify-center gap-2 px-6 bg-red-50 hover:bg-red-100 rounded-xl py-4 md:py-0 transition-all">
                     <Filter size={18} className="text-itm-red" />
-                    <span className="text-sm font-bold text-itm-red uppercase tracking-widest">Filter</span>
+                    <span className="text-[10px] md:text-sm font-black text-itm-red uppercase tracking-widest">Filter</span>
                 </button>
             </div>
 

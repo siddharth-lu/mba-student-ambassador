@@ -45,7 +45,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
             <div className={`absolute -inset-0.5 bg-gradient-to-r from-itm-red to-itm-gold rounded-[1.5rem] md:rounded-[2.5rem] blur opacity-0 group-hover:opacity-30 transition duration-1000 group-hover:duration-200 ${isCompact ? 'block md:hidden' : 'block'}`} />
 
             <div className={`relative bg-white/80 backdrop-blur-xl rounded-[1.5rem] md:rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-white/20 flex flex-col h-full ${!isCompact ? 'group-hover:-translate-y-2' : ''}`}>
-                <div className={`relative w-full overflow-hidden ${isCompact ? 'h-48 md:h-72' : 'h-72'}`}>
+                <div className={`relative w-full overflow-hidden ${isCompact ? 'h-48 sm:h-60 md:h-72' : 'h-72 md:h-80'}`}>
                     <Image
                         src={imgSrc}
                         alt={ambassador.name}
@@ -55,15 +55,15 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         onError={() => setImgSrc(getPlaceholderUrl(ambassador.name))}
                         unoptimized={true}
                     />
-                    <div className={`absolute top-3 md:top-5 right-3 md:right-5 glass px-3 md:px-4 py-1.5 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-itm-red`}>
+                    <div className={`absolute top-3 sm:top-4 md:top-5 right-3 sm:right-4 md:right-5 glass px-3 sm:px-3 md:px-4 py-1.5 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-itm-red transition-all`}>
                         {ambassador.year}
                     </div>
                 </div>
 
-                <div className={`${isCompact ? 'p-4 md:p-8' : 'p-8'} flex flex-col flex-grow relative text-center md:text-left`}>
+                <div className={`${isCompact ? 'p-4 sm:p-6 md:p-8' : 'p-6 sm:p-8 md:p-10'} flex flex-col flex-grow relative text-center md:text-left transition-all`}>
                     <div className={`${isCompact ? 'mb-2 md:mb-6' : 'mb-6'}`}>
-                        <div className="text-itm-red font-black text-[8px] md:text-xs uppercase tracking-[0.3em] mb-1 md:mb-2">{ambassador.specialization}</div>
-                        <h3 className={`${isCompact ? 'text-lg md:text-3xl' : 'text-3xl'} font-black text-gray-900 tracking-tighter leading-tight md:leading-none`}>{ambassador.name}</h3>
+                        <div className="text-itm-red font-black text-[8px] sm:text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] mb-1 md:mb-2">{ambassador.specialization}</div>
+                        <h3 className={`${isCompact ? 'text-lg sm:text-2xl md:text-3xl' : 'text-2xl sm:text-3xl md:text-4xl'} font-black text-gray-900 tracking-tighter leading-tight md:leading-none transition-all`}>{ambassador.name}</h3>
                     </div>
 
                     {isCompact && (

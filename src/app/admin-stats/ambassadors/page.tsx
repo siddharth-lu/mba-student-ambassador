@@ -210,18 +210,18 @@ export default function AmbassadorManagement() {
                     <h1 className="text-3xl font-bold text-itm-red">Ambassador Management</h1>
                     <p className="text-gray-500 mt-1">Add, edit, or remove student ambassadors from the public list.</p>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                     <button
                         onClick={handleBatchImport}
                         disabled={isBatchImporting}
-                        className="bg-itm-red/[0.03] hover:bg-itm-red/[0.08] text-itm-red border border-itm-red/10 px-6 py-3 rounded-2xl flex items-center gap-2 font-bold transition-all disabled:opacity-50"
+                        className="bg-itm-red/[0.03] hover:bg-itm-red/[0.08] text-itm-red border border-itm-red/10 px-4 md:px-6 py-3 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all disabled:opacity-50 text-sm md:text-base"
                     >
                         {isBatchImporting ? (
                             <div className="w-4 h-4 border-2 border-itm-red border-t-transparent rounded-full animate-spin" />
                         ) : (
                             <Search size={18} />
                         )}
-                        Import Official Data
+                        <span>Import Official Data</span>
                     </button>
                     <button
                         onClick={() => {
@@ -229,10 +229,10 @@ export default function AmbassadorManagement() {
                             setFormData(EMPTY_FORM);
                             setIsModalOpen(true);
                         }}
-                        className="bg-itm-red text-white px-6 py-3 rounded-2xl flex items-center gap-2 hover:bg-itm-red/90 transition-all font-bold shadow-lg shadow-itm-red/20"
+                        className="bg-itm-red text-white px-4 md:px-6 py-3 rounded-2xl flex items-center justify-center gap-2 hover:bg-itm-red/90 transition-all font-bold shadow-lg shadow-itm-red/20 text-sm md:text-base"
                     >
                         <UserPlus size={18} />
-                        Add New Ambassador
+                        <span>Add Ambassador</span>
                     </button>
                 </div>
             </div>
@@ -249,9 +249,15 @@ export default function AmbassadorManagement() {
                         className="w-full bg-gray-50 border-none rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-itm-gold/20 transition-all"
                     />
                 </div>
-                <div className="flex items-center gap-4 px-4 bg-gray-50 rounded-xl py-4 md:py-0">
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total: {ambassadors.length}</span>
-                    <span className="text-xs font-bold text-green-500 uppercase tracking-widest">Active: {ambassadors.filter(a => a.is_active).length}</span>
+                <div className="flex items-center justify-between md:justify-end gap-6 px-4 bg-gray-50 rounded-xl py-4 md:py-0 border md:border-none border-gray-100">
+                    <span className="text-[10px] md:text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                        Total: {ambassadors.length}
+                    </span>
+                    <span className="text-[10px] md:text-xs font-black text-green-500 uppercase tracking-widest flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                        Active: {ambassadors.filter(a => a.is_active).length}
+                    </span>
                 </div>
             </div>
 
