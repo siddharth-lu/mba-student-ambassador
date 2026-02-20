@@ -37,6 +37,7 @@ const EMPTY_FORM: Omit<Ambassador, 'id'> = {
     photo_url: DEFAULT_PLACEHOLDER,
     instagram_url: '',
     linkedin_url: '',
+    email_id: '',
     is_active: true
 };
 
@@ -48,6 +49,7 @@ export default function AmbassadorManagement() {
     const [formData, setFormData] = useState<Omit<Ambassador, 'id'>>(EMPTY_FORM);
     const [searchQuery, setSearchQuery] = useState('');
     const [isUploading, setIsUploading] = useState(false);
+    const [isBatchImporting, setIsBatchImporting] = useState(false);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     // Real-time listener for ambassadors
@@ -67,6 +69,34 @@ export default function AmbassadorManagement() {
 
         return () => unsubscribe();
     }, []);
+
+    const handleBatchImport = async () => {
+        if (!window.confirm('Are you sure you want to import ALL 37 official student profiles? This will add them to the current list.')) {
+            return;
+        }
+
+        setIsBatchImporting(true);
+        try {
+            const data = await import('@/data/ambassadorImport.json');
+            const officialData = data.default || data;
+
+            console.log(`Starting batch import of ${officialData.length} profiles...`);
+
+            for (const student of officialData) {
+                await addDoc(collection(db, 'ambassadors'), {
+                    ...student,
+                    createdAt: new Date().toISOString()
+                });
+            }
+
+            alert('Batch import successful! All 37 student profiles are now live.');
+        } catch (error: any) {
+            console.error('BATCH IMPORT ERROR:', error);
+            alert('Batch import failed: ' + error.message);
+        } finally {
+            setIsBatchImporting(false);
+        }
+    };
 
     const toggleStatus = async (id: string, currentStatus: boolean) => {
         try {
@@ -168,13 +198,31 @@ export default function AmbassadorManagement() {
                     <h1 className="text-3xl font-bold text-itm-red">Ambassador Management</h1>
                     <p className="text-gray-500 mt-1">Add, edit, or remove student ambassadors from the public list.</p>
                 </div>
-                <button
-                    onClick={() => handleOpenModal()}
-                    className="bg-itm-gold hover:bg-itm-accent text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-itm-gold/20"
-                >
-                    <UserPlus size={20} />
-                    <span>Add New student</span>
-                </button>
+                <div className="flex gap-3">
+                    <button
+                        onClick={handleBatchImport}
+                        disabled={isBatchImporting}
+                        className="bg-itm-red/[0.03] hover:bg-itm-red/[0.08] text-itm-red border border-itm-red/10 px-6 py-3 rounded-2xl flex items-center gap-2 font-bold transition-all disabled:opacity-50"
+                    >
+                        {isBatchImporting ? (
+                            <div className="w-4 h-4 border-2 border-itm-red border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                            <Search size={18} />
+                        )}
+                        Import Official Data
+                    </button>
+                    <button
+                        onClick={() => {
+                            setEditingId(null);
+                            setFormData(EMPTY_FORM);
+                            setIsModalOpen(true);
+                        }}
+                        className="bg-itm-red text-white px-6 py-3 rounded-2xl flex items-center gap-2 hover:bg-itm-red/90 transition-all font-bold shadow-lg shadow-itm-red/20"
+                    >
+                        <UserPlus size={18} />
+                        Add New Ambassador
+                    </button>
+                </div>
             </div>
 
             {/* Search Bar */}
@@ -216,7 +264,7 @@ export default function AmbassadorManagement() {
                                 <div className="flex-grow min-w-0">
                                     <h3 className="font-bold text-gray-900 truncate">{amb.name}</h3>
                                     <p className="text-itm-gold text-xs font-bold uppercase tracking-wider">{amb.specialization}</p>
-                                    <p className="text-gray-500 text-xs mt-1">{amb.year}</p>
+                                    <p className="text-gray-500 text-xs mt-1">{amb.year} • {amb.email_id || 'No email'}</p>
                                 </div>
                                 <button
                                     onClick={() => toggleStatus(amb.id, amb.is_active)}
@@ -333,6 +381,17 @@ export default function AmbassadorManagement() {
                                         className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all"
                                     />
                                 </div>
+                                <div className="space-y-1 text-left">
+                                    <label className="text-sm font-bold text-gray-700 ml-1">Email ID</label>
+                                    <input
+                                        type="email"
+                                        value={formData.email_id}
+                                        onChange={(e) => handleInputChange('email_id', e.target.value)}
+                                        placeholder="student@isu.ac.in"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-itm-gold/20 focus:border-itm-gold outline-none transition-all"
+                                    />
+                                </div>
+
                                 <div className="space-y-1 text-left">
                                     <label className="text-sm font-bold text-gray-700 ml-1">Specialization</label>
                                     <select

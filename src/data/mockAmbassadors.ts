@@ -7,6 +7,7 @@ export interface Ambassador {
   tagline: string;
   instagram_url: string;
   linkedin_url: string;
+  email_id: string;
   is_active: boolean;
 }
 
@@ -20,6 +21,7 @@ export const mockAmbassadors: Ambassador[] = [
     tagline: 'Passionate about digital trends and brand building.',
     instagram_url: 'https://instagram.com/aaryan_itm',
     linkedin_url: 'https://linkedin.com/in/aaryan-sharma',
+    email_id: '',
     is_active: true,
   },
   {
@@ -31,6 +33,7 @@ export const mockAmbassadors: Ambassador[] = [
     tagline: 'Future fintech enthusiast. Let\'s talk numbers!',
     instagram_url: 'https://instagram.com/sneha_itm',
     linkedin_url: 'https://linkedin.com/in/sneha-kapoor',
+    email_id: '',
     is_active: true,
   },
   {
@@ -42,6 +45,7 @@ export const mockAmbassadors: Ambassador[] = [
     tagline: 'Optimizing everything, from supply chains to campus life.',
     instagram_url: 'https://instagram.com/rohan_itm',
     linkedin_url: 'https://linkedin.com/in/rohan-mehta',
+    email_id: '',
     is_active: true,
   },
   {
@@ -53,6 +57,7 @@ export const mockAmbassadors: Ambassador[] = [
     tagline: 'People-first mindset. Happy to help with campus culture!',
     instagram_url: 'https://instagram.com/priya_itm',
     linkedin_url: 'https://linkedin.com/in/priya-joshi',
+    email_id: '',
     is_active: true,
   }
 ];
