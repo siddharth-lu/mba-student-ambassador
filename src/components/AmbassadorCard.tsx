@@ -14,6 +14,11 @@ interface AmbassadorCardProps {
 const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact = false }) => {
     const [imgSrc, setImgSrc] = React.useState(getProxyImageUrl(ambassador.photo_url) || getPlaceholderUrl(ambassador.name));
 
+    // Sync imgSrc when ambassador data changes (crucial for admin dashboard)
+    React.useEffect(() => {
+        setImgSrc(getProxyImageUrl(ambassador.photo_url) || getPlaceholderUrl(ambassador.name));
+    }, [ambassador.photo_url, ambassador.name]);
+
     const handleConnect = async (platform: 'instagram' | 'linkedin') => {
         const url = platform === 'instagram' ? ambassador.instagram_url : ambassador.linkedin_url;
 
@@ -48,7 +53,7 @@ const AmbassadorCard: React.FC<AmbassadorCardProps> = ({ ambassador, isCompact =
                         referrerPolicy="no-referrer"
                         className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                         onError={() => setImgSrc(getPlaceholderUrl(ambassador.name))}
-                        unoptimized={imgSrc.startsWith('http') && !imgSrc.includes('unsplash.com') && !imgSrc.includes('firebasestorage')}
+                        unoptimized={true}
                     />
                     <div className={`absolute top-3 md:top-5 right-3 md:right-5 glass px-3 md:px-4 py-1.5 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-itm-red`}>
                         {ambassador.year}

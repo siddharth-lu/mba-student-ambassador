@@ -256,6 +256,7 @@ export default function AmbassadorManagement() {
                                     <img
                                         src={getProxyImageUrl(amb.photo_url) || getPlaceholderUrl(amb.name)}
                                         alt={amb.name}
+                                        referrerPolicy="no-referrer"
                                         className="w-full h-full object-cover"
                                         onError={(e) => {
                                             (e.target as HTMLImageElement).src = getPlaceholderUrl(amb.name);
