@@ -32,7 +32,12 @@ export default function Home() {
     }, []);
     const filteredAmbassadors = selectedTag === 'All'
         ? ambassadors
-        : ambassadors.filter(a => a.specialization.toLowerCase().includes(selectedTag.toLowerCase()));
+        : ambassadors.filter(a => {
+            const spec = a.specialization?.toLowerCase() || '';
+            const tag = selectedTag.toLowerCase();
+            if (tag === 'ops') return spec.includes('operations') || spec.includes('ops');
+            return spec.includes(tag);
+        });
 
 
     const Marquee = ({ text }: { text: string }) => (
