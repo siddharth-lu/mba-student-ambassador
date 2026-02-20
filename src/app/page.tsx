@@ -112,10 +112,10 @@ export default function Home() {
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {[
-                            { label: 'Active Connects', val: '2.5k+' },
-                            { label: 'Response Rate', val: '98%' },
-                            { label: 'Verified Campus', val: '100%' },
-                            { label: 'Avg Feedback', val: '4.9/5' }
+                            { label: 'Avg Package', val: '8.5L' },
+                            { label: 'Highest Package', val: '21L' },
+                            { label: 'Professional Certs', val: '35+' },
+                            { label: 'Paid Internship', val: '5 Months' }
                         ].map((s, i) => (
                             <div key={i} className="text-center group cursor-default">
                                 <div className="text-itm-red text-4xl font-black mb-1 group-hover:scale-110 transition-transform duration-300">{s.val}</div>
