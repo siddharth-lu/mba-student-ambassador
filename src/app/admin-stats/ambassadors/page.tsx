@@ -116,16 +116,22 @@ export default function AmbassadorManagement() {
         try {
             setIsUploading(true);
 
-            // Create a unique file name/path in Firebase Storage
-            const storageRef = ref(storage, `ambassadors/${Date.now()}_${file.name}`);
+            // Use our server-side API route which proxies to Firebase Storage
+            const formData = new FormData();
+            formData.append('file', file);
 
-            // Upload the file
-            const snapshot = await uploadBytes(storageRef, file);
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
 
-            // Get the public download URL
-            const downloadURL = await getDownloadURL(snapshot.ref);
+            const data = await response.json();
 
-            setFormData(prev => ({ ...prev, photo_url: downloadURL }));
+            if (!response.ok) {
+                throw new Error(data.error || 'Upload failed');
+            }
+
+            setFormData(prev => ({ ...prev, photo_url: data.url }));
         } catch (err: any) {
             console.error('Photo upload error:', err);
             alert('Failed to upload photo: ' + (err.message || 'Unknown error'));
