@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/* Hide scrollbars globally */
+@layer base {
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --itm-red: #A31D45;
+  --itm-red-light: #FF5E8E;
+  --itm-gold: #FF9900;
+  --itm-accent: #E58A00;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui;
+  --color-itm-red: var(--itm-red);
+  --color-itm-gold: var(--itm-gold);
+  --color-itm-accent: var(--itm-accent);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(163, 29, 69, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(163, 29, 69, 0.4);
+  }
+}
+
+@keyframes gradient-x {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: marquee 80s linear infinite;
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-dark {
+  background: rgba(163, 29, 69, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--itm-red), var(--itm-red-light), var(--itm-red));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-x 5s ease infinite;
+}
+
+@keyframes word-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) skewY(4deg) scale(0.95);
+    filter: blur(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0) scale(1.05);
+    filter: blur(0);
+  }
+}
+
+@keyframes word-slide-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) skewY(0) scale(1.05);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) skewY(-4deg) scale(0.95);
+    filter: blur(15px);
+  }
+}
+
+.word-animate-in {
+  animation: word-slide-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.word-animate-out {
+  animation: word-slide-out 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-display);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--itm-red);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--itm-accent);
+}
